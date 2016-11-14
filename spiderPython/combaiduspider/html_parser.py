@@ -7,7 +7,7 @@ class HtmlParser(object):
 
     def _get_urls(self,soup):
         new_urls = set()
-        links = soup.find_all('a',class_='c-showurl')
+        links = soup.find_all(['a','span'],class_='c-showurl')
         return links
 
     def paser(self,html_cont):
