@@ -15,5 +15,6 @@
 
 
 问题汇总
-1. mysql-python安装时EnvironmentError: mysql_config not found。只要原因是没有安装:libmysqlclient-dev，sudo apt-get install libmysqlclient-dev 即可结局
-2. 安装pip时，应该要使用sudo来进行安装，否则会有权限不足的问题
+
+1.mysql-python安装时EnvironmentError: mysql_config not found。只要原因是没有安装:libmysqlclient-dev，sudo apt-get install libmysqlclient-dev 即可结局
+2.安装pip时，应该要使用sudo来进行安装，否则会有权限不足的问题
