@@ -11,3 +11,9 @@
 + 2016年11月5日 添加split.py文件来读取u.item，生成sep.item.练习读取，写入文件。写入文件时，需要将list转化成string才能写入
 
 + 2016年11月7日 python函数学习,突然发现学校图书馆有核心编程的书借了,现在过去
++ 2016年11月14日 百度爬虫可以根据多关键词来进行排名的查询
+
+
+问题汇总
+1. mysql-python安装时EnvironmentError: mysql_config not found。只要原因是没有安装:libmysqlclient-dev，sudo apt-get install libmysqlclient-dev 即可结局
+2. 安装pip时，应该要使用sudo来进行安装，否则会有权限不足的问题
