@@ -23,16 +23,19 @@ class QuotesSpider(scrapy.Spider):
         #     'http://quotes.toscrape.com/page/2/',
         # }
         root_name = ['长沙消防工程公司', '消防工程安装公司', '长沙安防工程', '长沙智能化弱电工程', '长沙监控安装公司']
+        # root_name = ['长沙平江香干']
         # root_name = root_name.encode('utf-8')
         root_user_url = 'www.hndtai.com'
+        # root_user_url = 'www.djpjxg.com'
         # root_user_url = 'http://www.seoai.cn/'
         # print root_name
         # root_pn = 0i
-        root_url = "http://www.baidu.com/s?"
+        root_url = "http://www.baidu.com/s"
         # for url in urls:
         yield scrapy.Request(url=root_url, meta={'root_name':root_name,'root_name_all':root_name,'root_user_url':root_user_url},callback=self.parse)
 
     def parse(self, response):
+        # print response.body
         # page = response.url.split("/")[-2]
         for root_name_single in response.meta['root_name_all']:
             root_name = quote_plus(root_name_single)
@@ -40,7 +43,7 @@ class QuotesSpider(scrapy.Spider):
             root_pn = 0
             domain_rank = root_pn / 10 - 1
             for root_pn in range(0, 51, 10):
-                html_wd_pn = "wd=%s&pn=%d" % (root_name, root_pn)
+                html_wd_pn = "?wd=%s&pn=%d" % (root_name, root_pn)
                 html_url = response.url + html_wd_pn
                 # print html_url
                 html_cont = self.downloader.download(html_url)
