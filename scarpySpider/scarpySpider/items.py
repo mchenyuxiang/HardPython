@@ -11,4 +11,7 @@ import scrapy
 class ScarpyspiderItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    rank = scrapy.Field()
+    keyword = scrapy.Field()
+    platformId = scrapy.Field()
+    companyId = scrapy.Field()

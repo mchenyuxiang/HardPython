@@ -2,10 +2,13 @@
 import scrapy
 import urllib
 import re
+import json
 from urllib import quote_plus
 
 from scarpySpider.spiders import html_downloader
 from scarpySpider.spiders import html_parser
+
+from scarpySpider.items import ScarpyspiderItem
 
 
 class QuotesSpider(scrapy.Spider):
@@ -22,6 +25,7 @@ class QuotesSpider(scrapy.Spider):
         #     'http://quotes.toscrape.com/page/1/',
         #     'http://quotes.toscrape.com/page/2/',
         # }
+        company_id = '1'
         root_name = ['长沙消防工程公司', '消防工程安装公司', '长沙安防工程', '长沙智能化弱电工程', '长沙监控安装公司']
         # root_name = ['长沙平江香干']
         # root_name = root_name.encode('utf-8')
@@ -29,15 +33,19 @@ class QuotesSpider(scrapy.Spider):
         # root_user_url = 'www.djpjxg.com'
         # root_user_url = 'http://www.seoai.cn/'
         # print root_name
-        # root_pn = 0i
+        # root_pn = 0
         root_url = "http://www.baidu.com/s"
         # for url in urls:
-        yield scrapy.Request(url=root_url, meta={'root_name':root_name,'root_name_all':root_name,'root_user_url':root_user_url},callback=self.parse)
+        yield scrapy.Request(url=root_url, meta={'company_id':company_id,'root_name':root_name,'root_name_all':root_name,'root_user_url':root_user_url},callback=self.parse)
 
     def parse(self, response):
+        items = []
         # print response.body
         # page = response.url.split("/")[-2]
         for root_name_single in response.meta['root_name_all']:
+            item = ScarpyspiderItem()
+            item['companyId'] = response.meta['company_id']
+            item['platformId'] = '1'
             root_name = quote_plus(root_name_single)
             # 得到:关键词列表
             root_pn = 0
@@ -67,16 +75,25 @@ class QuotesSpider(scrapy.Spider):
                     if result1:
                         domain_rank = new_data.index(name) + 1
                         domain_rank = root_pn + domain_rank
+                        item['rank'] = str(domain_rank)
+                        # print root_name_single
+                        item['keyword'] = root_name_single.decode('utf-8')
+                        # print item['keyword'].encode('utf-8')
+                        items.append(item)
+                        # print  '%s %s %s' %(item['rank'],item['keyword'],item['platformId'])
                         # print domain_rank
                         break
                         # print name.get_text()
                 # print domain_rank
-                if domain_rank != -1:
+                if domain_rank == -1:
+                    item['rank'] = '100'
+                    # print root_name_single
+                    item['keyword'] = root_name_single.decode('utf-8')
+                    # print item['keyword'].encode('utf-8')
+                    items.append(item)
+                    # print  '%s %s %s' %(item['rank'],item['keyword'],item['platformId'])
                     break
 
-            if domain_rank != -1:
-                rank_message = "关键词：%s\t百度排名为： %d" % (root_name_single, domain_rank)
-            else:
-                rank_message = "关键词：%s\t百度排名50名之外" % root_name_single
 
-            print rank_message
+            # print item['rank']
+        return items
