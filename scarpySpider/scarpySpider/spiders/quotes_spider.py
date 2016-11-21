@@ -46,6 +46,8 @@ class QuotesSpider(scrapy.Spider):
                 first_url = "%s?wd=%s&pn=0" % (root_url,keyword_t)
                 yield scrapy.Request(url=first_url, meta={'root_url':root_url,'company_id':company_id,'root_name':root_name,'root_name_all':keyword,'root_user_url':root_user_url},callback=self.parse)
 
+        self.cursor.close()
+
         # root_name = ['长沙平江香干']
         # root_name = root_name.encode('utf-8')
         # root_user_url = 'www.djpjxg.com'
