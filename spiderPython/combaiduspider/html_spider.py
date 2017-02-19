@@ -2,8 +2,8 @@
 import urllib
 import re
 
-from combaiduspider import html_downloader
-from combaiduspider import html_parser
+import html_downloader
+import html_parser
 from urllib import quote_plus
 
 class SpiderMain(object):

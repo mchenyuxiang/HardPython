@@ -1,6 +1,6 @@
 # -*-coding:utf-8-*-
 
-from combaiduspider import html_spider
+import html_spider
 
 if __name__ == '__main__':
     # root_name = ['长沙消防工程公司','消防工程安装公司','长沙安防工程','长沙智能化弱电工程','长沙监控安装公司']
