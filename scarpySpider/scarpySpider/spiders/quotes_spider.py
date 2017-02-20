@@ -34,6 +34,7 @@ class QuotesSpider(scrapy.Spider):
         #     'http://quotes.toscrape.com/page/1/',
         #     'http://quotes.toscrape.com/page/2/',
         # }
+        # SELECT * FROM zzcms_admin a LEFT JOIN zzcms_seo_keyword b ON a.id=b.`userid` WHERE b.platformid=1 GROUP BY b.name
         self.cursor.execute("select * from tb_company_info")
         self.cursor.scroll(0,"absolute")
         for line in self.cursor.fetchall():
