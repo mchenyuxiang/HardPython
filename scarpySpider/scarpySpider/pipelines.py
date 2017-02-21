@@ -9,7 +9,7 @@ import scrapy
 
 dbuser = 'root'
 dbpass = 'hndct888'
-dbname = 'spider'
+dbname = 'zzcms'
 dbhost = '564222ff17911.sh.cdb.myqcloud.com'
 dbport = 6922
 
@@ -23,13 +23,20 @@ class RankPipeline(object):
         try:
             print item['rank']
             print item['keyword'].encode('utf-8')
-            self.cursor.execute("""INSERT INTO tb_rank (companyId,rank, keyword, platformId,createTime)
-                                       VALUES (%s,%s, %s, %s, now())""",
+            #INSERT
+            #INTO
+            #zzcms_seo_costdetail(platformid, keywordid, webid, userid, createtime, rank, priceone, pricetwo)
+            #VALUES()
+            self.cursor.execute("""INSERT INTO zzcms_seo_costdetail(platformid,keywordid,webid,userid,createTime,rank,priceone,pricetwo)
+                                       VALUES (%s,%s, %s, %s, now(),%s,%s,%s)""",
                                 (
-                                    item['companyId'],
-                                    item['rank'],
-                                    item['keyword'].encode('utf-8'),
                                     item['platformId'],
+                                    item['keywordId'],
+                                    item['webId'],
+                                    item['userId'],
+                                    item['rank'],
+                                    item['priceone'],
+                                    item['pricetwo']
                                 )
                                 )
             print '-------------------test--------------------'
