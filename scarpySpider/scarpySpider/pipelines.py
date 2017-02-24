@@ -27,6 +27,17 @@ class RankPipeline(object):
             #INTO
             #zzcms_seo_costdetail(platformid, keywordid, webid, userid, createtime, rank, priceone, pricetwo)
             #VALUES()
+            if int(item['rank']) <= 10:
+                print item['rank']
+                priceone = item['priceone']
+                pricetwo = 0
+            elif int(item['rank']) <=20:
+                print item['rank']
+                priceone = 0
+                pricetwo = item['pricetwo']
+            else:
+                priceone = 0
+                pricetwo = 0
             self.cursor.execute("""INSERT INTO zzcms_seo_costdetail(platformid,keywordid,webid,userid,createTime,rank,priceone,pricetwo)
                                        VALUES (%s,%s, %s, %s, now(),%s,%s,%s)""",
                                 (
@@ -35,8 +46,8 @@ class RankPipeline(object):
                                     item['webId'],
                                     item['userId'],
                                     item['rank'],
-                                    item['priceone'],
-                                    item['pricetwo']
+                                    priceone,
+                                    pricetwo
                                 )
                                 )
             print '-------------------test--------------------'
