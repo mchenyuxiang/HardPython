@@ -15,6 +15,7 @@
 
 + 2016年2月17日 远程机器上安装好环境，2月底之前要将爬虫系统完成
 
++ 2017-2-25 baidu crawler ready
 问题汇总
 
 1.mysql-python安装时EnvironmentError: mysql_config not found。只要原因是没有安装:libmysqlclient-dev，sudo apt-get install libmysqlclient-dev 即可结局
