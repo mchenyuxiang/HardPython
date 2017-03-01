@@ -13,7 +13,7 @@ from scarpySpider.items import ScarpyspiderItem
 
 dbuser = 'root'
 dbpass = 'hndct888'
-dbname = 'zzcms'
+dbname = 'zzcms_test'
 dbhost = '564222ff17911.sh.cdb.myqcloud.com'
 dbport = 6922
 
