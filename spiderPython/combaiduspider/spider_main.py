@@ -4,10 +4,11 @@ import html_spider
 
 if __name__ == '__main__':
     # root_name = ['长沙消防工程公司','消防工程安装公司','长沙安防工程','长沙智能化弱电工程','长沙监控安装公司']
-    root_name = ['现货返佣网','原油返佣网','白银返佣网','返佣网']
+    # root_name = ['现货返佣网','原油返佣网','白银返佣网','返佣网']
+    root_name = ['真空手套箱']
     # root_name = root_name.encode('utf-8')
     # root_user_url = 'www.hndtai.com'
-    root_user_url = 'www.ciccfy.com'
+    root_user_url = 'www.deco-mill.com'
     # root_user_url = 'http://www.seoai.cn/'
     # print root_name
     # root_pn = 0i
