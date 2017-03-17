@@ -118,7 +118,7 @@ class QuotesSpider(scrapy.Spider):
                 break
 
         if domain_rank == -1:
-            for root_pn in range(2, 6, 1):
+            for root_pn in range(1, 6, 1):
                 html_wd_pn = "?query=%s&page=%d" % (root_name, root_pn)
                 html_url = response.meta['root_url'] + html_wd_pn
                 # print html_url
@@ -145,13 +145,13 @@ class QuotesSpider(scrapy.Spider):
                         break
                         # print name.get_text()
                 # print domain_rank
-                if domain_rank == -1:
-                    item['rank'] = '100'
+            if domain_rank == -1:
+                item['rank'] = '100'
                     # print root_name_single
-                    item['keyword'] = root_name_single.decode('utf-8')
+                item['keyword'] = root_name_single.decode('utf-8')
                     # print item['keyword'].encode('utf-8')
                     # print  '%s %s %s' %(item['rank'],item['keyword'],item['platformId'])
-                    break
+                # break
 
             # print item['rank']
         return item
