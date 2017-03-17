@@ -46,3 +46,17 @@ class HtmlParser(object):
         soup = BeautifulSoup(html_cont,'html.parser',from_encoding='utf-8')
         new_urls = self._sougou_get_urls(soup)
         return new_urls
+    # 360列表网页解析
+    def _sou_360_get_urls(self,soup):
+        new_urls = set()
+        links = soup.find_all(['p'],class_="res-linkinfo")
+        # links = soup.find_all(['cite'],attrs={'id':re.compile('cacheresult_info_[0-9]]')})
+        return links
+
+    def sou_360_paser(self,html_cont):
+        if html_cont is None:
+            return
+
+        soup = BeautifulSoup(html_cont,'html.parser',from_encoding='utf-8')
+        new_urls = self._sou_360_get_urls(soup)
+        return new_urls
