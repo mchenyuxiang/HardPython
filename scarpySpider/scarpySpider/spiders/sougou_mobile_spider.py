@@ -18,7 +18,7 @@ dbhost = '564222ff17911.sh.cdb.myqcloud.com'
 dbport = 6922
 
 class QuotesSpider(scrapy.Spider):
-    name = "sogou_rank"
+    name = "sogou_mobile_rank"
 
     def __init__(self):
         # self.keyword = keyword_manager.KeywordManager()
@@ -41,7 +41,7 @@ class QuotesSpider(scrapy.Spider):
                             "ON a.id=b.`userid` "
                             "LEFT JOIN zzcms_seo_web c "
                             "ON a.id=c.`userid` "
-                            "WHERE b.platformid=3 "
+                            "WHERE b.platformid=4 "
                             "GROUP BY b.name")
         self.cursor.scroll(0,"absolute")
         for line in self.cursor.fetchall():
@@ -53,9 +53,9 @@ class QuotesSpider(scrapy.Spider):
             priceone = line['priceone']
             pricetwo = line['pricetwo']
             root_user_url = line["websiteurl"]
-            root_url = "http://www.sogou.com/web"
+            root_url = "https://m.sogou.com/web/searchList.jsp"
             keyword_t = quote_plus(keyword)
-            first_url = "%s?query=%s&page=1" % (root_url,keyword_t)
+            first_url = "%s?keyword=%s" % (root_url,keyword_t)
             yield scrapy.Request(url=first_url, meta={'root_url':root_url,'keywordid':keywordid,'user_id':user_id,'webid':webid,'priceone':priceone,'pricetwo':pricetwo,'root_name_all':keyword,'root_user_url':root_user_url},callback=self.parse)
             #for keyword in root_name:
             #    keyword_t = quote_plus(keyword)
@@ -77,11 +77,11 @@ class QuotesSpider(scrapy.Spider):
         # page = response.url.split("/")[-2]
 
         page = response.body
-        new_data = self.parser.sougou_paser(page)
+        new_data = self.parser.sougou_mobile_paser(page)
 
         item = ScarpyspiderItem()
         item['userId'] = response.meta['user_id']
-        item['platformId'] = '3'
+        item['platformId'] = '4'
         item['webId'] = response.meta['webid']
         item['keywordId'] = response.meta['keywordid']
         item['priceone'] = response.meta['priceone']
@@ -103,54 +103,24 @@ class QuotesSpider(scrapy.Spider):
         else:
             user_domain = '请输入域名'
 
-        # for name in new_data:
-        #     pattern = re.compile(r'%s' % user_domain)
-        #     result1 = re.search(pattern, name.get_text())
-        #     if result1:
-        #         domain_rank = new_data.index(name) + 1
-        #         domain_rank = (root_pn-1)*10 + domain_rank
-        #         item['rank'] = str(domain_rank)
-        #         # print root_name_single
-        #         item['keyword'] = root_name_single.decode('utf-8')
-        #         # print item['keyword'].encode('utf-8')
-        #         # print  '%s %s %s' %(item['rank'],item['keyword'],item['platformId'])
-        #         # print domain_rank
-        #         break
+        for name in new_data:
+            pattern = re.compile(r'%s' % user_domain)
+            result1 = re.search(pattern, name.get_text())
+            if result1:
+                domain_rank = new_data.index(name) + 1
+                domain_rank = (root_pn-1)*10 + domain_rank
+                item['rank'] = str(domain_rank)
+                # print root_name_single
+                item['keyword'] = root_name_single.decode('utf-8')
+                # print item['keyword'].encode('utf-8')
+                # print  '%s %s %s' %(item['rank'],item['keyword'],item['platformId'])
+                # print domain_rank
+                break
 
         if domain_rank == -1:
-            for root_pn in range(1, 6, 1):
-                html_wd_pn = "?query=%s&page=%d" % (root_name, root_pn)
-                html_url = response.meta['root_url'] + html_wd_pn
-                # print html_url
-                html_cont = self.downloader.download(html_url)
-                # 得出网址
-                new_data = self.parser.sougou_paser(html_cont)
-
-                # print type(user_url_data)
-                # print user_domain
-                # 查询用户网址是否在当前页面，如果不在则翻页，最多查询5页内容
-                for name in new_data:
-                    # print name
-                    pattern = re.compile(r'%s' % user_domain)
-                    result1 = re.search(pattern, name.get_text())
-                    if result1:
-                        domain_rank = new_data.index(name) + 1
-                        domain_rank = (root_pn-1)*10 + domain_rank
-                        item['rank'] = str(domain_rank)
-                        # print root_name_single
-                        item['keyword'] = root_name_single.decode('utf-8')
-                        # print item['keyword'].encode('utf-8')
-                        # print  '%s %s %s' %(item['rank'],item['keyword'],item['platformId'])
-                        # print domain_rank
-                        break
-                        # print name.get_text()
-                # print domain_rank
-                if domain_rank != -1:
-                    break
-            if domain_rank == -1:
-                item['rank'] = '100'
+            item['rank'] = '100'
                     # print root_name_single
-                item['keyword'] = root_name_single.decode('utf-8')
+            item['keyword'] = root_name_single.decode('utf-8')
                     # print item['keyword'].encode('utf-8')
                     # print  '%s %s %s' %(item['rank'],item['keyword'],item['platformId'])
                 # break

@@ -16,9 +16,9 @@ if __name__ == '__main__':
     # print root_name
     # root_pn = 0i
     # root_url = "http://www.baidu.com/s?"
-    root_url = "https://www.so.com/s?"
+    root_url = "https://m.sogou.com/web/searchList.jsp?"
     # print root_url
     obj_spider = html_spider.SpiderMain()
     # obj_spider.baidu_rank_craw(root_url,root_user_url,root_name)
     # obj_spider.sougou_rank_craw(root_url,root_user_url,root_name)
-    obj_spider.sou_360_rank_craw(root_url,root_user_url,root_name)
+    obj_spider.sougou_mobile_rank_craw(root_url,root_user_url,root_name)
