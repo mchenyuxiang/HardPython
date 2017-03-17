@@ -32,3 +32,17 @@ class HtmlParser(object):
         soup = BeautifulSoup(html_cont,'html.parser',from_encoding='utf-8')
         new_urls = self._baidu_mobile_get_urls(soup)
         return new_urls
+    # 搜狗列表网页解析
+    def _sougou_get_urls(self,soup):
+        new_urls = set()
+        # links = soup.find_all(['cite'], attrs={'id': re.compile('cacheresult_info_[0-9]]')})
+        links = soup.findAll('cite')
+        return links
+
+    def sougou_paser(self,html_cont):
+        if html_cont is None:
+            return
+
+        soup = BeautifulSoup(html_cont,'html.parser',from_encoding='utf-8')
+        new_urls = self._sougou_get_urls(soup)
+        return new_urls
