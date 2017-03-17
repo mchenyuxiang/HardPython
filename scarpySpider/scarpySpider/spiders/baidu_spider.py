@@ -144,13 +144,14 @@ class QuotesSpider(scrapy.Spider):
                         break
                         # print name.get_text()
                 # print domain_rank
-                if domain_rank == -1:
-                    item['rank'] = '100'
+                if domain_rank != -1:
+                    break
+            if domain_rank == -1:
+                item['rank'] = '100'
                     # print root_name_single
-                    item['keyword'] = root_name_single.decode('utf-8')
+                item['keyword'] = root_name_single.decode('utf-8')
                     # print item['keyword'].encode('utf-8')
                     # print  '%s %s %s' %(item['rank'],item['keyword'],item['platformId'])
-                    break
 
             # print item['rank']
         return item
