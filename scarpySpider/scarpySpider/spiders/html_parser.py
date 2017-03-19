@@ -93,3 +93,19 @@ class HtmlParser(object):
         soup = BeautifulSoup(html_cont,'html.parser',from_encoding='utf-8')
         new_urls = self._sougou_mobile_get_urls(soup)
         return new_urls
+
+    # shenma列表网页解析
+    def _shenma_get_urls(self,soup):
+        new_urls = set()
+        # links = soup.findAll('span')
+        links = soup.find_all(['div'],class_="other")
+        # links = soup.find_all(['cite'],attrs={'id':re.compile('cacheresult_info_[0-9]]')})
+        return links
+
+    def shenma_paser(self,html_cont):
+        if html_cont is None:
+            return
+
+        soup = BeautifulSoup(html_cont,'html.parser',from_encoding='utf-8')
+        new_urls = self._shenma_get_urls(soup)
+        return new_urls

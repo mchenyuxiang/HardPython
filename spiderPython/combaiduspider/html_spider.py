@@ -245,3 +245,53 @@ class SpiderMain(object):
                 rank_message =  "关键词：%s\t百度排名50名之外" % root_name_single
 
             print rank_message
+
+    # shenma百度排名查询
+    def shenma_rank_craw(self,root_url,root_user_url,root_name_all):
+        for root_name_single in root_name_all:
+            root_name = quote_plus(root_name_single)
+            # 得到:关键词列表
+            root_pn = 1
+            domain_rank = (root_pn-1)*10  - 1
+            for root_pn in range(1, 2 ,1):
+                html_wd_pn = "q=%s&page=%d" % (root_name,root_pn)
+                # html_wd_pn = "keyword=%s" % (root_name)
+                html_url = root_url+html_wd_pn
+                # print html_url
+                html_cont = self.downloader.download(html_url)
+                # print html_cont
+                # 得出网址
+                new_data = self.parser.shenma_paser(html_cont)
+                # print new_data
+                # 得到客户的域名地址
+                user_url_data = root_user_url.split(".")
+                leng_url = len(user_url_data)
+                if leng_url == 1:
+                    user_domain = user_url_data
+                elif leng_url > 1:
+                    user_domain = user_url_data[1]
+                else:
+                    user_domain = '请输入域名'
+                # print type(user_url_data)
+                # print user_domain
+                # 查询用户网址是否在当前页面，如果不在则翻页，最多查询5页内容
+                for name in new_data:
+                    # print name
+                    pattern = re.compile(r'%s'%user_domain)
+                    result1 = re.search(pattern, name.get_text())
+                    if result1:
+                        domain_rank = new_data.index(name)+1
+                        domain_rank = (root_pn-1)*10 + domain_rank
+                        # print domain_rank
+                        break
+                        # print name.get_text()
+                # print domain_rank
+                if domain_rank != -1:
+                    break
+
+            if domain_rank != -1:
+                rank_message =  "关键词：%s\t百度排名为： %d" % (root_name_single,domain_rank)
+            else:
+                rank_message =  "关键词：%s\t百度排名50名之外" % root_name_single
+
+            print rank_message
