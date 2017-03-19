@@ -23,7 +23,7 @@ class SpiderMain(object):
             for root_pn in range(0, 51 ,10):
                 html_wd_pn = "wd=%s&pn=%d" % (root_name,root_pn)
                 html_url = root_url+html_wd_pn
-                # print html_url
+                print html_url
                 html_cont = self.downloader.download(html_url)
                 # 得出网址
                 new_data = self.parser.baidu_paser(html_cont)
@@ -40,6 +40,7 @@ class SpiderMain(object):
                 # print user_domain
                 # 查询用户网址是否在当前页面，如果不在则翻页，最多查询5页内容
                 for name in new_data:
+                    # print name
                     pattern = re.compile(r'%s'%user_domain)
                     result1 = re.search(pattern, name.get_text())
                     if result1:

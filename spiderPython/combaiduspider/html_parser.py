@@ -7,7 +7,7 @@ class HtmlParser(object):
 
     def _baidu_get_urls(self,soup):
         new_urls = set()
-        links = soup.find_all(['a','span'],class_='c-showurl')
+        links = soup.find_all(['a'],class_='c-showurl')
         return links
 
     # 百度列表网页解析

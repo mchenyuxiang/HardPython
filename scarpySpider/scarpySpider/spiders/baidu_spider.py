@@ -55,7 +55,7 @@ class QuotesSpider(scrapy.Spider):
             root_user_url = line["websiteurl"]
             root_url = "http://www.baidu.com/s"
             keyword_t = quote_plus(keyword)
-            first_url = "%s?wd=%s&pn=0" % (root_url,keyword_t)
+            first_url = "%s?usm=3&wd=%s&pn=0" % (root_url,keyword_t)
             yield scrapy.Request(url=first_url, meta={'root_url':root_url,'keywordid':keywordid,'user_id':user_id,'webid':webid,'priceone':priceone,'pricetwo':pricetwo,'root_name_all':keyword,'root_user_url':root_user_url},callback=self.parse)
             #for keyword in root_name:
             #    keyword_t = quote_plus(keyword)
@@ -119,7 +119,7 @@ class QuotesSpider(scrapy.Spider):
 
         if domain_rank == -1:
             for root_pn in range(10, 51, 10):
-                html_wd_pn = "?wd=%s&pn=%d" % (root_name, root_pn)
+                html_wd_pn = "?usm=3&wd=%s&pn=%d" % (root_name, root_pn)
                 html_url = response.meta['root_url'] + html_wd_pn
                 # print html_url
                 html_cont = self.downloader.download(html_url)
