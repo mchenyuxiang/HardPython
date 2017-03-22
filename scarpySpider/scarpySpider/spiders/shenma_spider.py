@@ -53,8 +53,8 @@ class QuotesSpider(scrapy.Spider):
             priceone = line['priceone']
             pricetwo = line['pricetwo']
             root_user_url = line["websiteurl"]
-            root_url = "https://www.so.com/s"
-            keyword_t = quote_plus(keyword)
+            root_url = "http://m.sm.cn/s"
+            keyword_t = keyword
             first_url = "%s?q=%s&page=1" % (root_url,keyword_t)
             yield scrapy.Request(url=first_url, meta={'root_url':root_url,'keywordid':keywordid,'user_id':user_id,'webid':webid,'priceone':priceone,'pricetwo':pricetwo,'root_name_all':keyword,'root_user_url':root_user_url},callback=self.parse)
             #for keyword in root_name:
@@ -77,7 +77,7 @@ class QuotesSpider(scrapy.Spider):
         # page = response.url.split("/")[-2]
 
         page = response.body
-        new_data = self.parser.sou_360_paser(page)
+        new_data = self.parser.shenma_paser(page)
 
         item = ScarpyspiderItem()
         item['userId'] = response.meta['user_id']
