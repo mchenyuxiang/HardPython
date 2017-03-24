@@ -11,11 +11,13 @@ from scarpySpider.spiders import html_parser
 
 from scarpySpider.items import ScarpyspiderItem
 
-dbuser = 'root'
-dbpass = 'hndct888'
-dbname = 'zzcms_test'
-dbhost = '564222ff17911.sh.cdb.myqcloud.com'
-dbport = 6922
+from scarpySpider import  settings
+
+dbuser = settings.MYSQL_USER
+dbpass = settings.MYSQL_PASSWD
+dbname = settings.MYSQL_DBNAME
+dbhost = settings.MYSQL_HOST
+dbport = settings.MYSQL_PORT
 
 class QuotesSpider(scrapy.Spider):
     name = "shenma_rank"
@@ -114,7 +116,7 @@ class QuotesSpider(scrapy.Spider):
                 html_wd_pn = "&q=%s&page=%d" % (root_name, root_pn)
                 html_url = response.meta['root_url'] + html_wd_pn
                 # print html_url
-                html_cont = self.downloader.shenma_download(html_url)
+                html_cont = self.downloader.mobile_download(html_url)
                 # 得出网址
                 new_data = self.parser.shenma_paser(html_cont)
 

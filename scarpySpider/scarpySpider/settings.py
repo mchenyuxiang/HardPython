@@ -91,3 +91,11 @@ ITEM_PIPELINES = {
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStoraged'
+
+# start MySQL database configure setting
+MYSQL_HOST = '564222ff17911.sh.cdb.myqcloud.com'
+MYSQL_DBNAME = 'zzcms_test'
+MYSQL_USER = 'root'
+MYSQL_PASSWD = 'hndct888'
+MYSQL_PORT = 6922
+# end of MySQL database configure setting

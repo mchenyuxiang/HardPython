@@ -11,11 +11,13 @@ from scarpySpider.spiders import html_parser
 
 from scarpySpider.items import ScarpyspiderItem
 
-dbuser = 'root'
-dbpass = 'hndct888'
-dbname = 'zzcms_test'
-dbhost = '564222ff17911.sh.cdb.myqcloud.com'
-dbport = 6922
+from scarpySpider import  settings
+
+dbuser = settings.MYSQL_USER
+dbpass = settings.MYSQL_PASSWD
+dbname = settings.MYSQL_DBNAME
+dbhost = settings.MYSQL_HOST
+dbport = settings.MYSQL_PORT
 
 class QuotesSpider(scrapy.Spider):
     name = "sogou_mobile_rank"
