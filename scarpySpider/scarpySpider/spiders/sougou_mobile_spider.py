@@ -44,6 +44,10 @@ class QuotesSpider(scrapy.Spider):
                             "WHERE b.platformid=4 "
                             "GROUP BY b.name")
         self.cursor.scroll(0,"absolute")
+        header = {
+            "Host": "m.sogou.com",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            'User-Agent': "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1"}
         for line in self.cursor.fetchall():
             user_id = line["id"]
             webid=line["webid"]
@@ -56,7 +60,7 @@ class QuotesSpider(scrapy.Spider):
             root_url = "https://m.sogou.com/web/searchList.jsp"
             keyword_t = quote_plus(keyword)
             first_url = "%s?keyword=%s" % (root_url,keyword_t)
-            yield scrapy.Request(url=first_url, meta={'root_url':root_url,'keywordid':keywordid,'user_id':user_id,'webid':webid,'priceone':priceone,'pricetwo':pricetwo,'root_name_all':keyword,'root_user_url':root_user_url},callback=self.parse)
+            yield scrapy.Request(url=first_url,headers=header, meta={'root_url':root_url,'keywordid':keywordid,'user_id':user_id,'webid':webid,'priceone':priceone,'pricetwo':pricetwo,'root_name_all':keyword,'root_user_url':root_user_url},callback=self.parse)
             #for keyword in root_name:
             #    keyword_t = quote_plus(keyword)
             #    first_url = "%s?wd=%s&pn=0" % (root_url,keyword_t)

@@ -44,6 +44,10 @@ class QuotesSpider(scrapy.Spider):
                             "WHERE b.platformid=7 "
                             "GROUP BY b.name")
         self.cursor.scroll(0,"absolute")
+        header = {
+            "Host": "m.so.com",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            'User-Agent': "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1"}
         for line in self.cursor.fetchall():
             user_id = line["id"]
             webid=line["webid"]
@@ -56,7 +60,7 @@ class QuotesSpider(scrapy.Spider):
             root_url = "https://m.so.com/s"
             keyword_t = quote_plus(keyword)
             first_url = "%s?q=%s&pn=1" % (root_url,keyword_t)
-            yield scrapy.Request(url=first_url, meta={'root_url':root_url,'keywordid':keywordid,'user_id':user_id,'webid':webid,'priceone':priceone,'pricetwo':pricetwo,'root_name_all':keyword,'root_user_url':root_user_url},callback=self.parse)
+            yield scrapy.Request(url=first_url,headers=header, meta={'root_url':root_url,'keywordid':keywordid,'user_id':user_id,'webid':webid,'priceone':priceone,'pricetwo':pricetwo,'root_name_all':keyword,'root_user_url':root_user_url},callback=self.parse)
 
         self.cursor.close()
 
@@ -97,7 +101,7 @@ class QuotesSpider(scrapy.Spider):
                 html_wd_pn = "?q=%s&pn=%d" % (root_name, root_pn)
                 html_url = response.meta['root_url'] + html_wd_pn
                 # print html_url
-                html_cont = self.downloader.download(html_url)
+                html_cont = self.downloader.mobile_download(html_url)
                 # 得出网址
                 new_data = self.parser.sou_360_mobile_paser(html_cont)
 
