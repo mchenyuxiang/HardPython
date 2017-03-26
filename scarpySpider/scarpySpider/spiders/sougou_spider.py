@@ -4,6 +4,7 @@ import urllib
 import re
 import json
 import MySQLdb
+import time
 from urllib import quote_plus
 
 from scarpySpider.spiders import html_downloader
@@ -121,6 +122,8 @@ class QuotesSpider(scrapy.Spider):
 
         if domain_rank == -1:
             for root_pn in range(1, 6, 1):
+
+                time.sleep(4)
                 html_wd_pn = "?query=%s&page=%d" % (root_name, root_pn)
                 html_url = response.meta['root_url'] + html_wd_pn
                 # print html_url
