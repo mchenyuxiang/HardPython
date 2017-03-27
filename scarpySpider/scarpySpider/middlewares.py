@@ -20,4 +20,4 @@ class RotateUserAgentMiddleware(UserAgentMiddleware):
 class ProxyMiddleware(object):
 
     def process_request(self,request,spider):
-        request.meta['proxy'] = 'http://115.29.2.139:80'
+        request.meta['proxy'] = 'http://221.216.94.77:808'

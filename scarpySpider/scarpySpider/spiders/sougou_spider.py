@@ -44,7 +44,7 @@ class QuotesSpider(scrapy.Spider):
                             "ON a.id=b.`userid` "
                             "LEFT JOIN zzcms_seo_web c "
                             "ON a.id=c.`userid` "
-                            "WHERE b.platformid=3 "
+                            "WHERE b.platformid=3 and a.id=1 "
                             "GROUP BY b.name")
         self.cursor.scroll(0,"absolute")
         for line in self.cursor.fetchall():
@@ -94,8 +94,9 @@ class QuotesSpider(scrapy.Spider):
         root_name_single = response.meta['root_name_all']
         root_name = quote_plus(root_name_single)
 
+        domain_rank = -1
         root_pn = response.meta['page_n']
-        domain_rank = (root_pn-1) * 10 - 1
+        domain_rank_t = (root_pn-1) * 10 - 1
 
         # 得到客户的域名地址
         user_url_data = response.meta['root_user_url'].split(".")
@@ -119,11 +120,12 @@ class QuotesSpider(scrapy.Spider):
                 # print item['keyword'].encode('utf-8')
                 # print  '%s %s %s' %(item['rank'],item['keyword'],item['platformId'])
                 # print domain_rank
+                yield item
                 break
 
 
         root_pn = root_pn + 1
-        if domain_rank == -1 & root_pn != 6:
+        if domain_rank == -1 and root_pn != 6:
             root_url = response.meta['root_url']
             keywordid = response.meta['keywordid']
             user_id = response.meta['user_id']
@@ -134,11 +136,11 @@ class QuotesSpider(scrapy.Spider):
             root_user_url = response.meta['root_user_url']
             html_wd_pn = "?query=%s&page=%d" % (root_name, root_pn)
             first_url = response.meta['root_url'] + html_wd_pn
-            return scrapy.Request(url=first_url, meta={'page_n':root_pn,'root_url':root_url,'keywordid':keywordid,
+            yield scrapy.Request(url=first_url, meta={'page_n':root_pn,'root_url':root_url,'keywordid':keywordid,
                                                       'user_id':user_id,'webid':webid,'priceone':priceone,
                                                       'pricetwo':pricetwo,'root_name_all':keyword,
                                                       'root_user_url':root_user_url},callback=self.parse)
-        if domain_rank == -1:
+        if domain_rank == -1 and root_pn == 6:
             item['rank'] = '100'
                 # print root_name_single
             item['keyword'] = root_name_single.decode('utf-8')
@@ -147,4 +149,5 @@ class QuotesSpider(scrapy.Spider):
             # break
 
             # print item['rank']
-        return item
+            yield item
+
