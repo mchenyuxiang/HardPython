@@ -28,7 +28,7 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 6
+# DOWNLOAD_DELAY = 6
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -57,7 +57,7 @@ DOWNLOADER_MIDDLEWARES = {
 # #    'scarpySpider.middlewares.MyCustomDownloaderMiddleware': 543,
 #    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
 #    'scarpySpider.middlewares.RotateUserAgentMiddleware': 400,
-#     'scarpySpider.middlewares.ProxyMiddleware': 543,
+    'scarpySpider.middlewares.ProxyMiddleware': 143,
 }
 
 # Enable or disable extensions
@@ -100,3 +100,5 @@ MYSQL_USER = 'root'
 MYSQL_PASSWD = 'hndct888'
 MYSQL_PORT = 6922
 # end of MySQL database configure setting
+
+LOG_FILE = 'scrapy.log'
