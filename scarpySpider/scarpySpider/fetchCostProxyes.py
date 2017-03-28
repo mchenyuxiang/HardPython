@@ -171,10 +171,10 @@ def fetch_66ip():
 def fetch_cost():
     proxyes = []
     try:
-        url = "http://tvp.daxiangdaili.com/ip/?tid=558895589380936&num=100&operator=1&category=2"
+        url = "http://tvp.daxiangdaili.com/ip/?tid=558895589380936&num=50&operator=1&category=2"
         contentOri = get_html(url)
         content = contentOri.split("\r\n")
-        with open("proxyes.dat", "w") as fd:
+        with open("../proxyes.dat", "w") as fd:
             for u in content:
                 print u
                 if check(u):
@@ -192,7 +192,7 @@ def fetch_cost():
 def fetch_cost_not_write():
     proxyes = []
     try:
-        url = "http://tvp.daxiangdaili.com/ip/?tid=558895589380936&num=1000&operator=1&category=2"
+        url = "http://tvp.daxiangdaili.com/ip/?tid=558895589380936&num=50&operator=1&category=2"
         contentOri = get_html(url)
         content = contentOri.split("\r\n")
         for u in content:

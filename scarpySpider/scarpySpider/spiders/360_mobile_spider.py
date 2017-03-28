@@ -60,9 +60,10 @@ class QuotesSpider(scrapy.Spider):
             pricetwo = line['pricetwo']
             root_user_url = line["websiteurl"]
             root_url = "https://m.so.com/s"
+            pn = 1
             keyword_t = quote_plus(keyword)
-            first_url = "%s?q=%s&pn=1" % (root_url,keyword_t)
-            yield scrapy.Request(url=first_url,headers=header, meta={'root_url':root_url,'keywordid':keywordid,'user_id':user_id,'webid':webid,'priceone':priceone,'pricetwo':pricetwo,'root_name_all':keyword,'root_user_url':root_user_url},callback=self.parse)
+            first_url = "%s?q=%s&pn=%d" % (root_url,keyword_t,pn)
+            yield scrapy.Request(url=first_url,headers=header, meta={'page_n':pn,'root_url':root_url,'keywordid':keywordid,'user_id':user_id,'webid':webid,'priceone':priceone,'pricetwo':pricetwo,'root_name_all':keyword,'root_user_url':root_user_url},callback=self.parse)
 
         self.cursor.close()
 
@@ -84,8 +85,8 @@ class QuotesSpider(scrapy.Spider):
         root_name_single = response.meta['root_name_all']
         root_name = quote_plus(root_name_single)
 
-        root_pn = 1
-        domain_rank = (root_pn-1) * 10 - 1
+        root_pn = response.meta['page_n']
+        domain_rank = -1
 
         # 得到客户的域名地址
         user_url_data = response.meta['root_user_url'].split(".")
@@ -97,43 +98,47 @@ class QuotesSpider(scrapy.Spider):
         else:
             user_domain = '请输入域名'
 
-
-        if domain_rank == -1:
-            for root_pn in range(1, 6, 1):
-                html_wd_pn = "?q=%s&pn=%d" % (root_name, root_pn)
-                html_url = response.meta['root_url'] + html_wd_pn
-                # print html_url
-                html_cont = self.downloader.mobile_download(html_url)
-                # 得出网址
-                new_data = self.parser.sou_360_mobile_paser(html_cont)
-
-                # print new_data
-                # print type(user_url_data)
-                # print user_domain
-                # 查询用户网址是否在当前页面，如果不在则翻页，最多查询5页内容
-                for name in new_data:
-                    pattern = re.compile(r'%s' % user_domain)
-                    result1 = re.search(pattern, name.get_text())
-                    if result1:
-                        domain_rank = new_data.index(name) + 1
-                        domain_rank = (root_pn-1)*10 + domain_rank
-                        item['rank'] = str(domain_rank)
-                        # print root_name_single
-                        item['keyword'] = root_name_single.decode('utf-8')
-                        # print item['keyword'].encode('utf-8')
-                        # print  '%s %s %s' %(item['rank'],item['keyword'],item['platformId'])
-                        # print domain_rank
-                        break
-                        # print name.get_text()
-                # print domain_rank
-                if domain_rank != -1:
-                    break
-            if domain_rank == -1:
-                item['rank'] = '100'
-                    # print root_name_single
+        for name in new_data:
+            pattern = re.compile(r'%s' % user_domain)
+            result1 = re.search(pattern, name.get_text())
+            if result1:
+                domain_rank = new_data.index(name) + 1
+                domain_rank = (root_pn-1)*10 + domain_rank
+                item['rank'] = str(domain_rank)
+                # print root_name_single
                 item['keyword'] = root_name_single.decode('utf-8')
-                    # print item['keyword'].encode('utf-8')
-                    # print  '%s %s %s' %(item['rank'],item['keyword'],item['platformId'])
+                # print item['keyword'].encode('utf-8')
+                # print  '%s %s %s' %(item['rank'],item['keyword'],item['platformId'])
+                # print domain_rank
+                yield item
+                break
 
+        root_pn = root_pn + 1
+        if domain_rank == -1 and root_pn != 6:
+            root_url = response.meta['root_url']
+            keywordid = response.meta['keywordid']
+            user_id = response.meta['user_id']
+            webid = response.meta['webid']
+            priceone = response.meta['priceone']
+            pricetwo = response.meta['pricetwo']
+            keyword = response.meta['root_name_all']
+            root_user_url = response.meta['root_user_url']
+            html_wd_pn = "?q=%s&pn=%d" % (root_name, root_pn)
+            first_url = response.meta['root_url'] + html_wd_pn
+            header = {
+                "Host": "m.so.com",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                'User-Agent': "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1"}
+            yield scrapy.Request(url=first_url,headers=header, meta={'page_n': root_pn, 'root_url': root_url, 'keywordid': keywordid,
+                                                      'user_id': user_id, 'webid': webid, 'priceone': priceone,
+                                                      'pricetwo': pricetwo, 'root_name_all': keyword,
+                                                      'root_user_url': root_user_url}, callback=self.parse)
+
+        if domain_rank == -1 and root_pn == 6:
+            item['rank'] = '100'
+            # print root_name_single
+            item['keyword'] = root_name_single.decode('utf-8')
+            # print item['keyword'].encode('utf-8')
+            # print  '%s %s %s' %(item['rank'],item['keyword'],item['platformId'])
+            yield item
             # print item['rank']
-        return item
