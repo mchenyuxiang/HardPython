@@ -1,8 +1,10 @@
 # coding:utf-8
 
-from scrapy import cmdline
+#from scrapy import cmdline
 import os
 import MySQLdb
+
+from scarpySpider import settings
 
 # cmdline.execute("scrapy crawl shenma_rank".split())
 # cmdline.execute("scrapy crawl baidu_mobile_rank".split())
@@ -17,14 +19,14 @@ import MySQLdb
 os.system("scrapy crawl shenma_rank")
 
 # 更新数据余额
-# dbuser = 'root'
-# dbpass = 'hndct888'
-# dbname = 'zzcms_test'
-# dbhost = '564222ff17911.sh.cdb.myqcloud.com'
-# dbport = 6922
+dbuser = settings.MYSQL_USER
+dbpass = settings.MYSQL_PASSWD
+dbname = settings.MYSQL_DBNAME
+dbhost = settings.MYSQL_HOST
+dbport = settings.MYSQL_PORT
 #
-# conn = MySQLdb.connect(user=dbuser, passwd=dbpass, db=dbname, host=dbhost, port=dbport, charset="utf8")
-# cur = conn.cursor(cursorclass=MySQLdb.cursors.DictCursor)
+conn = MySQLdb.connect(user=dbuser, passwd=dbpass, db=dbname, host=dbhost, port=dbport, charset="utf8")
+cur = conn.cursor(cursorclass=MySQLdb.cursors.DictCursor)
 #
-# cur.execute("call UpdateBalance")
-# cur.close()
+cur.execute("call UpdateBalance")
+cur.close()
