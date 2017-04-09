@@ -44,7 +44,7 @@ class QuotesSpider(scrapy.Spider):
                             "LEFT JOIN zzcms_seo_web c "
                             "ON a.id=c.`userid` "
                             "WHERE b.platformid=4 "
-                            "GROUP BY b.name")
+                            "GROUP BY c.id,b.name")
         self.cursor.scroll(0,"absolute")
         header = {
             "Host": "m.sogou.com",
