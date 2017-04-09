@@ -37,7 +37,7 @@ class QuotesSpider(scrapy.Spider):
         #     'http://quotes.toscrape.com/page/2/',
         # }
         # SELECT * FROM zzcms_admin a LEFT JOIN zzcms_seo_keyword b ON a.id=b.`userid` WHERE b.platformid=1 GROUP BY b.name
-        self.cursor.execute("SELECT a.id,c.id as webid,b.priceone as priceone,b.pricetwo as pricetwo,b.id as keywordid,a.`username`,c.platformid,b.name as keywordname,c.websiteurl "
+        self.cursor.execute("SELECT a.id,c.id as webid,b.priceone as priceone,b.pricetwo as pricetwo,b.id as keywordid,a.`username`,b.platformid,b.name as keywordname,c.websiteurl "
                             "FROM zzcms_admin a "
                             "LEFT JOIN zzcms_seo_keyword b "
                             "ON a.id=b.`userid` "
