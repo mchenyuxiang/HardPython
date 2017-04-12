@@ -50,7 +50,7 @@ class RankPipeline(object):
                                     item['rank'],
                                     priceone,
                                     pricetwo,
-                                    item['keyword']
+                                    item['keyword'].encode('utf-8')
                                 )
                                 )
             print '-------------------test--------------------'
