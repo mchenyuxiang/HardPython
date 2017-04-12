@@ -43,10 +43,11 @@ class QuotesSpider(scrapy.Spider):
                             "ON a.id=b.`userid` "
                             "LEFT JOIN zzcms_seo_web c "
                             "ON a.id=c.`userid` "
-                            "WHERE b.platformid=1 "
+                            "WHERE b.platformid=1"
                             "GROUP BY c.id,b.name")
         self.cursor.scroll(0,"absolute")
         for line in self.cursor.fetchall():
+            print line['keywordname']
             user_id = line["id"]
             webid=line["webid"]
             #root_name = line["companyKeyword"].encode("utf-8").split(",")
@@ -59,7 +60,7 @@ class QuotesSpider(scrapy.Spider):
             keyword_t = quote_plus(keyword)
             page_n = 0
             first_url = "%s?usm=3&wd=%s&pn=%d" % (root_url,keyword_t,page_n)
-            yield scrapy.Request(url=first_url, meta={'page_n':page_n,'root_url':root_url,'keywordid':keywordid,'user_id':user_id,'webid':webid,'priceone':priceone,'pricetwo':pricetwo,'root_name_all':keyword,'root_user_url':root_user_url},callback=self.parse)
+            yield scrapy.Request(url=first_url, dont_filter=True,meta={'page_n':page_n,'root_url':root_url,'keywordid':keywordid,'user_id':user_id,'webid':webid,'priceone':priceone,'pricetwo':pricetwo,'root_name_all':keyword,'root_user_url':root_user_url},callback=self.parse)
             #for keyword in root_name:
             #    keyword_t = quote_plus(keyword)
             #    first_url = "%s?wd=%s&pn=0" % (root_url,keyword_t)

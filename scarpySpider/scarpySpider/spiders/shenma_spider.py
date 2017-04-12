@@ -63,7 +63,7 @@ class QuotesSpider(scrapy.Spider):
             keyword_t = keyword
             page = 1
             first_url = "%s&q=%s&page=%d" % (root_url,keyword_t,page)
-            yield scrapy.Request(url=first_url, headers=header, meta={'page_n':page,'root_url':root_url,'keywordid':keywordid,'user_id':user_id,'webid':webid,'priceone':priceone,'pricetwo':pricetwo,'root_name_all':keyword,'root_user_url':root_user_url},callback=self.parse)
+            yield scrapy.Request(url=first_url, dont_filter=True, headers=header, meta={'page_n':page,'root_url':root_url,'keywordid':keywordid,'user_id':user_id,'webid':webid,'priceone':priceone,'pricetwo':pricetwo,'root_name_all':keyword,'root_user_url':root_user_url},callback=self.parse)
 
             #for keyword in root_name:
             #    keyword_t = quote_plus(keyword)
