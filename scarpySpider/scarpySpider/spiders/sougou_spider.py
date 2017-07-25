@@ -44,7 +44,7 @@ class QuotesSpider(scrapy.Spider):
                             "ON a.id=b.`userid` "
                             "LEFT JOIN zzcms_seo_web c "
                             "ON a.id=c.`userid` "
-                            "WHERE b.platformid=3 "
+                            "WHERE b.platformid=3 and a.balance>0 "
                             "GROUP BY c.id,b.name")
         self.cursor.scroll(0,"absolute")
         for line in self.cursor.fetchall():
@@ -104,7 +104,7 @@ class QuotesSpider(scrapy.Spider):
         if leng_url == 1:
             user_domain = user_url_data
         elif leng_url > 1:
-            user_domain = user_url_data[1]
+            user_domain = response.meta['root_user_url']
         else:
             user_domain = '请输入域名'
 

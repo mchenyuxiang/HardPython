@@ -11,12 +11,12 @@ from scarpySpider import settings
 # cmdline.execute("scrapy crawl baidu_rank".split())
 # cmdline.execute("scrapy crawl author".split())
 os.system("scrapy crawl baidu_rank")
-# os.system("scrapy crawl baidu_mobile_rank")
-# os.system("scrapy crawl sogou_rank")
-# os.system("scrapy crawl 360_rank")
-# os.system("scrapy crawl 360_mobile_rank")
-# os.system("scrapy crawl sogou_mobile_rank")
-# os.system("scrapy crawl shenma_rank")
+os.system("scrapy crawl baidu_mobile_rank")
+os.system("scrapy crawl sogou_rank")
+os.system("scrapy crawl 360_rank")
+os.system("scrapy crawl 360_mobile_rank")
+os.system("scrapy crawl sogou_mobile_rank")
+os.system("scrapy crawl shenma_rank")
 
 # 更新数据余额
 dbuser = settings.MYSQL_USER
