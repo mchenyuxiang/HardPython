@@ -171,7 +171,9 @@ def fetch_66ip():
 def fetch_cost():
     proxyes = []
     try:
-        url = "http://tvp.daxiangdaili.com/ip/?tid=558895589380936&num=50&operator=1&category=2"
+        # url = "http://ip.16yun.cn:817/myip/proxylist/7d43eaae-33e1-4626-8f03-7573d92017cf/?u=jhf"
+        # url = "http://tvp.daxiangdaili.com/ip/?tid=558895589380936&num=50&operator=1&category=2"
+        url = "http://vtp.daxiangdaili.com/ip/?tid=558895589380936&num=20&delay=1&exclude_ports=808&filter=on"
         contentOri = get_html(url)
         content = contentOri.split("\r\n")
         with open("../proxyes.dat", "w") as fd:
@@ -192,7 +194,9 @@ def fetch_cost():
 def fetch_cost_not_write():
     proxyes = []
     try:
-        url = "http://tvp.daxiangdaili.com/ip/?tid=558895589380936&num=50&operator=1&category=2"
+        # url = "http://ip.16yun.cn:817/myip/proxylist/7d43eaae-33e1-4626-8f03-7573d92017cf/?u=jhf"
+        url = "http://vtp.daxiangdaili.com/ip/?tid=558895589380936&num=20&delay=1&exclude_ports=808&filter=on"
+        # url = "http://tvp.daxiangdaili.com/ip/?tid=558895589380936&num=50&operator=1&category=2"
         contentOri = get_html(url)
         content = contentOri.split("\r\n")
         for u in content:
@@ -222,6 +226,7 @@ def fetch_all(endpage=2):
     for p in proxyes:
         if check(p):
             valid_proxyes.append(p)
+            # print p
     return valid_proxyes
 
 

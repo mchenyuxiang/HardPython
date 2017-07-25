@@ -18,9 +18,9 @@ class ProxyMiddleware(object):
         # 保存上次不用代理直接连接的时间点
         self.last_no_proxy_time = datetime.now()
         # 一定分钟数后切换回不用代理, 因为用代理影响到速度
-        self.recover_interval = 10
+        self.recover_interval = 20
         # 一个proxy如果没用到这个数字就被发现老是超时, 则永久移除该proxy. 设为0则不会修改代理文件.
-        self.dump_count_threshold = 20
+        self.dump_count_threshold = 2
         # 存放代理列表的文件, 每行一个代理, 格式为ip:port, 注意没有http://, 而且这个文件会被修改, 注意备份
         self.proxy_file = "proxyes.dat"
         # 是否在超时的情况下禁用代理
@@ -38,22 +38,30 @@ class ProxyMiddleware(object):
         # 上一次抓新代理的时间
         self.last_fetch_proxy_time = datetime.now()
         # 每隔固定时间强制抓取新代理(min)
-        self.fetch_proxy_interval = 120
+        self.fetch_proxy_interval = 20
         # 一个将被设为invalid的代理如果已经成功爬取大于这个参数的页面， 将不会被invalid
         self.invalid_proxy_threshold = 200
         # 从文件读取初始代理
 
         # fetchCostProxyes.fetch_cost()
-        if os.path.exists(self.proxy_file):
-            with open(self.proxy_file, "r") as fd:
-                lines = fd.readlines()
-                for line in lines:
-                    line = line.strip()
-                    if not line or self.url_in_proxyes("http://" + line):
-                        continue
-                    self.proxyes.append({"proxy": "http://" + line,
-                                         "valid": True,
-                                         "count": 0})
+        new_proxyes = fetchCostProxyes.fetch_all()
+        for np in new_proxyes:
+            if self.url_in_proxyes("http://" + np):
+                continue
+            else:
+                self.proxyes.append({"proxy": "http://" + np,
+                                     "valid": True,
+                                     "count": 0})
+        # if os.path.exists(self.proxy_file):
+        #     with open(self.proxy_file, "r") as fd:
+        #         lines = fd.readlines()
+        #         for line in lines:
+        #             line = line.strip()
+        #             if not line or self.url_in_proxyes("http://" + line):
+        #                 continue
+        #             self.proxyes.append({"proxy": "http://" + line,
+        #                                  "valid": True,
+        #                                  "count": 0})
 
     @classmethod
     def from_crawler(cls, crawler):
