@@ -36,8 +36,8 @@ class HtmlParser(object):
     # 搜狗列表网页解析
     def _sougou_get_urls(self,soup):
         new_urls = set()
-        links = soup.findAll('cite')
-        # links = soup.find_all(['cite'],attrs={'id':re.compile('cacheresult_info_[0-9]]')})
+        # links = soup.findAll('cite')
+        links = soup.find_all(['cite'],attrs={'id':re.compile('cacheresult_info_*')})
         return links
 
     def sougou_paser(self,html_cont):

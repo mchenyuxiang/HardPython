@@ -57,7 +57,7 @@ DOWNLOADER_MIDDLEWARES = {
 # #    'scarpySpider.middlewares.MyCustomDownloaderMiddleware': 543,
 #    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
 #    'scarpySpider.middlewares.RotateUserAgentMiddleware': 400,
-    'scarpySpider.middlewares.ProxyMiddleware': 143,
+#     'scarpySpider.middlewares.ProxyMiddleware': 143,
 }
 
 # Enable or disable extensions
