@@ -104,7 +104,7 @@ class QuotesSpider(scrapy.Spider):
         if leng_url == 1:
             user_domain = user_url_data
         elif leng_url > 1:
-            user_domain = response.meta['root_user_url']
+            user_domain = user_url_data[1]+"."+user_url_data[2]
         else:
             user_domain = '请输入域名'
 
