@@ -43,7 +43,7 @@ class QuotesSpider(scrapy.Spider):
                             "ON a.id=b.`userid` "
                             "LEFT JOIN zzcms_seo_web c "
                             "ON a.id=c.`userid` "
-                            "WHERE b.platformid=1 and a.balance>0 and c.id=121 "
+                            "WHERE b.platformid=1 and a.balance>0 "
                             "GROUP BY c.id,b.name")
         self.cursor.scroll(0,"absolute")
         for line in self.cursor.fetchall():
