@@ -69,7 +69,8 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'scarpySpider.pipelines.RankPipeline': 400,
+    # 'scarpySpider.pipelines.RankPipeline': 400,
+    'scarpySpider.pipelines.MysqlTwistedPipeline': 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
