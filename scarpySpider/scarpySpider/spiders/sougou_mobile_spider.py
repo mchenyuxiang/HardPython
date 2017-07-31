@@ -5,6 +5,7 @@ import re
 import json
 import MySQLdb
 from urllib import quote_plus
+from fake_useragent import UserAgent
 
 from scarpySpider.spiders import html_downloader
 from scarpySpider.spiders import html_parser
@@ -46,11 +47,13 @@ class QuotesSpider(scrapy.Spider):
                             "WHERE b.platformid=4 and a.balance>0 "
                             "GROUP BY c.id,b.name")
         self.cursor.scroll(0,"absolute")
-        header = {
-            "Host": "m.sogou.com",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-            'User-Agent': "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1"}
+        ua = UserAgent()
+
         for line in self.cursor.fetchall():
+            header = {
+                "Host": "m.sogou.com",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                'User-Agent': ua.random}
             user_id = line["id"]
             webid=line["webid"]
             #root_name = line["companyKeyword"].encode("utf-8").split(",")

@@ -11,14 +11,15 @@ import scrapy
 from twisted.enterprise import adbapi
 from scarpySpider import settings
 
-dbuser = settings.MYSQL_USER
-dbpass = settings.MYSQL_PASSWD
-dbname = settings.MYSQL_DBNAME
-dbhost = settings.MYSQL_HOST
-dbport = settings.MYSQL_PORT
+
 
 class RankPipeline(object):
     def __init__(self):
+        dbuser = settings.MYSQL_USER
+        dbpass = settings.MYSQL_PASSWD
+        dbname = settings.MYSQL_DBNAME
+        dbhost = settings.MYSQL_HOST
+        dbport = settings.MYSQL_PORT
         self.conn = MySQLdb.connect(user=dbuser,passwd=dbpass,db=dbname,host=dbhost,port=dbport,charset="utf8")
         self.cursor = self.conn.cursor()
         self.conn.commit()
