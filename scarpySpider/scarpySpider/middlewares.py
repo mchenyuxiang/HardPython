@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from twisted.web._newclient import ResponseNeverReceived
 from twisted.internet.error import TimeoutError, ConnectionRefusedError, ConnectError
 from scarpySpider import fetchCostProxyes
+from fake_useragent import UserAgent
 
 logger = logging.getLogger(__name__)
 
@@ -260,3 +261,15 @@ class ProxyMiddleware(object):
             new_request.dont_filter = True
             return new_request
 
+class RandomUserAgentMiddlware(object):
+    def __init__(self,crawler):
+        super(RandomUserAgentMiddlware,self).__init__()
+        self.ua = UserAgent()
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(crawler)
+
+    def process_request(self, request, spider):
+        get_ua = self.ua.random
+        request.headers.setdefault('User-Agent',get_ua)
