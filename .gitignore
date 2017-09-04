@@ -84,3 +84,4 @@ deploy/*
 *.log
 App/Runtime/
 App/Common/Conf/db.php
+/scarpySpider/proxyes.dat
