@@ -45,7 +45,7 @@ class RankPipeline(object):
                 pricetwo = 0
             #   DATE_SUB(NOW(),INTERVAL 1 DAY)
             self.cursor.execute("""INSERT INTO zzcms_seo_costdetail(platformid,keywordid,webid,userid,createTime,rank,priceone,pricetwo,keywordname)
-                                       VALUES (%s,%s, %s, %s, now(),%s,%s,%s,%s)""",
+                                       VALUES (%s,%s, %s, %s,DATE_SUB(NOW(),INTERVAL 1 DAY),%s,%s,%s,%s)""",
                                 (
                                     item['platformId'],
                                     item['keywordId'],
@@ -124,7 +124,7 @@ class MysqlTwistedPipeline(object):
                 priceone = 0
                 pricetwo = 0
             cursor.execute("""INSERT INTO zzcms_seo_costdetail(platformid,keywordid,webid,userid,createTime,rank,priceone,pricetwo,keywordname)
-                                             VALUES (%s,%s, %s, %s, now(),%s,%s,%s,%s)""",
+                                             VALUES (%s,%s, %s, %s,DATE_SUB(NOW(),INTERVAL 1 DAY),%s,%s,%s,%s)""",
                                 (
                                     item['platformId'],
                                     item['keywordId'],

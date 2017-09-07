@@ -47,7 +47,7 @@ class QuotesSpider(scrapy.Spider):
                             "GROUP BY c.id,b.name")
         self.cursor.scroll(0,"absolute")
         for line in self.cursor.fetchall():
-            print line['keywordname']
+            #print line['keywordname']
             user_id = line["id"]
             webid=line["webid"]
             #root_name = line["companyKeyword"].encode("utf-8").split(",")
